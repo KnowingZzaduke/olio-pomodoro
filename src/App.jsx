@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import "../compile-css/output.css";
+import {
+  Input,
+  Button,
+  Select,
+  SelectSection,
+  SelectItem,
+} from "@nextui-org/react";
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div
+      className="flex flex-col align-middle justify-center"
+      style={{ minHeight: "100vh" }}
+    >
+      <div className="text-center flex flex-col items-center">
+        <h2 className="font-bold text-xl">Olio y Pomodoro</h2>
+        <form
+          className="flex flex-col border-2 border-solid rounded p-2"
+          style={{ width: "500px", minWidth: "400px", gap: "15px" }}
+        >
+          <fieldset>
+            <Input
+              isRequired
+              type="date"
+              label="Fecha de factura"
+              placeholder="Ingresa la fecha de la factura"
+            />
+          </fieldset>
+          <fieldset>
+            <Input
+              isRequired
+              type="time"
+              label="Hora de la factura"
+              placeholder="Ingresa la hora de la factura"
+            />
+          </fieldset>
+          <fieldset className="flex flex-col" style={{ gap: "15px" }}>
+            <Select label="Selecciona una categoría de los productos">
+              <SelectItem>Categorías</SelectItem>
+            </Select>
+            <Select label="Selecciona un producto">
+              <SelectItem>Productos</SelectItem>
+            </Select>
+          </fieldset>
+        </form>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
