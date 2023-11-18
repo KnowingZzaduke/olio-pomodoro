@@ -21,41 +21,9 @@ function App() {
           <fieldset>
             <Input
               isRequired
-              type="date"
-              label="Fecha de factura"
-              placeholder="Ingresa la fecha de la factura"
-            />
-          </fieldset>
-          <fieldset>
-            <Input
-              isRequired
-              type="time"
-              label="Hora de la factura"
-              placeholder="Ingresa la hora de la factura"
-            />
-          </fieldset>
-          <fieldset className="flex flex-col" style={{ gap: "15px" }}>
-            <Select label="Selecciona una categoría de los productos">
-              <SelectItem>Categorías</SelectItem>
-            </Select>
-            <Select label="Selecciona un producto">
-              <SelectItem>Productos</SelectItem>
-            </Select>
-          </fieldset>
-          <fieldset>
-            <Input
-              isRequired
-              type="number"
-              label="Total de ventas"
-              placeholder="Ingresa el total de la venta"
-            />
-          </fieldset>
-          <fieldset>
-            <Input
-              isRequired
-              type="number"
-              label="Caja/Efectivo"
-              placeholder="Ingresa el total de la caja o efectivo"
+              type="text"
+              label="Nombre de usuario"
+              placeholder="Ingresa el nombre de usuario"
             />
           </fieldset>
           <Button color="success">Enviar</Button>
