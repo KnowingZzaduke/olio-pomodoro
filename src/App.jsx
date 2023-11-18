@@ -21,12 +21,27 @@ function App() {
           <fieldset>
             <Input
               isRequired
-              type="text"
-              label="Nombre de usuario"
-              placeholder="Ingresa el nombre de usuario"
+              type="date"
+              label="Fecha de factura"
+              placeholder="Ingresa la fecha de la factura"
             />
           </fieldset>
-          <Button color="success">Enviar</Button>
+          <fieldset>
+            <Input
+              isRequired
+              type="time"
+              label="Hora de la factura"
+              placeholder="Ingresa la hora de la factura"
+            />
+          </fieldset>
+          <fieldset className="flex flex-col" style={{ gap: "15px" }}>
+            <Select label="Selecciona una categoría de los productos">
+              <SelectItem>Categorías</SelectItem>
+            </Select>
+            <Select label="Selecciona un producto">
+              <SelectItem>Productos</SelectItem>
+            </Select>
+          </fieldset>
         </form>
       </div>
     </div>
