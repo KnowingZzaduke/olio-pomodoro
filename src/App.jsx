@@ -42,6 +42,23 @@ function App() {
               <SelectItem>Productos</SelectItem>
             </Select>
           </fieldset>
+          <fieldset>
+            <Input
+              isRequired
+              type="number"
+              label="Total de ventas"
+              placeholder="Ingresa el total de la venta"
+            />
+          </fieldset>
+          <fieldset>
+            <Input
+              isRequired
+              type="number"
+              label="Caja/Efectivo"
+              placeholder="Ingresa el total de la caja o efectivo"
+            />
+          </fieldset>
+          <Button color="success">Enviar</Button>
         </form>
       </div>
     </div>
