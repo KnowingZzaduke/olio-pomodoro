@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class LoginDAO 
+public class loginDAO 
 {
     Connection con;
     PreparedStatement ps;

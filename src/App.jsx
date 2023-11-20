@@ -36,20 +36,42 @@ function App() {
           <fieldset>
             <Input
               isRequired
+<<<<<<< HEAD
               type="text"
               label="Usuario"
               placeholder="Ingresa el nombre de usuario"
+=======
+              type="date"
+              label="Fecha de factura"
+              placeholder="Ingresa la fecha de la factura"
+>>>>>>> 7a0b9edf4b305f875f15ad2862c0bb9bf74d93de
             />
           </fieldset>
           <fieldset>
             <Input
               isRequired
+<<<<<<< HEAD
               type="password"
               label="Contraseña"
               placeholder="Ingresa la contraseña"
             />
           </fieldset>
           <Button color="success" type="submit">Enviar</Button>
+=======
+              type="time"
+              label="Hora de la factura"
+              placeholder="Ingresa la hora de la factura"
+            />
+          </fieldset>
+          <fieldset className="flex flex-col" style={{ gap: "15px" }}>
+            <Select label="Selecciona una categoría de los productos">
+              <SelectItem>Categorías</SelectItem>
+            </Select>
+            <Select label="Selecciona un producto">
+              <SelectItem>Productos</SelectItem>
+            </Select>
+          </fieldset>
+>>>>>>> 7a0b9edf4b305f875f15ad2862c0bb9bf74d93de
         </form>
       </div>
     </div>
