@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class recibir {
     public static void main(String[] args) {
-        String jdbcUrl = "dbc:mysql:http://localhost:8080/";
+        String jdbcUrl = "dbc:mysql:http://localhost:8080/sistemaventas";
         String usuario = "usuario";
         String contraseña = "contraseña";
 
