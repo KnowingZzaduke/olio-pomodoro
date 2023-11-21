@@ -7,11 +7,21 @@ import {
   TableCell,
   Pagination,
   getKeyValue,
+  useDisclosure,
+  Button,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "@nextui-org/react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
+import { request } from "../data/request";
+import { Link } from "react-router-dom";
 function TableData() {
   const [data, setData] = useState(null);
   const [showModalNotResults, setShowModalNotResults] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const pages = Math.ceil(data?.length / rowsPerPage);
@@ -20,58 +30,125 @@ function TableData() {
     const end = start + rowsPerPage;
     return data ? data.slice(start, end) : [];
   }, [page, data]);
+  const loadData = useCallback(async () => {
+    try {
+      const response = await request.loaddata();
+      if (response) {
+        setData(response.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  useEffect(() => {
+    if (
+      data === "No se encontraron registros en la tabla nombre-tabla" ||
+      data === null
+    ) {
+      setShowModalNotResults(true);
+      onOpen();
+    } else {
+      setShowModalNotResults(false);
+    }
+  }, [data]);
+
   return (
     <div
       className="flex flex-col justify-center relative"
       style={{ minHeight: "100vh", overflow: "hidden" }}
     >
-      {showModalNotResults === false ? (
-        <>
-          <h1 className="py-3 font-semibold" style={{ fontSize: "30px" }}>
-            Tabla de registros
-          </h1>
-          <Table
-            aria-label="Example table with client side pagination"
-            bottomContent={
-              pages > 0 ? (
-                <div className="flex w-full justify-center">
-                  <Pagination
-                    isCompact
-                    showControls
-                    showShadow
-                    color="primary"
-                    page={page}
-                    total={pages}
-                    onChange={(page) => setPage(page)}
-                  />
-                </div>
-              ) : null
-            }
-            classNames={{
-              wrapper: "min-h-[222px]",
-            }}
+      <div>
+        {showModalNotResults === false ? (
+          <>
+            <h1 className="py-3 font-semibold" style={{ fontSize: "30px" }}>
+              Tabla de facturas
+            </h1>
+            <Table
+              aria-label="Example table with client side pagination"
+              bottomContent={
+                pages > 0 ? (
+                  <div className="flex w-full justify-center">
+                    <Pagination
+                      isCompact
+                      showControls
+                      showShadow
+                      color="primary"
+                      page={page}
+                      total={pages}
+                      onChange={(page) => setPage(page)}
+                    />
+                  </div>
+                ) : null
+              }
+              classNames={{
+                wrapper: "min-h-[222px]",
+              }}
+            >
+              <TableHeader>
+                <TableColumn key="fecha_hora-actual">FECHA Y HORA</TableColumn>
+                <TableColumn key="numero">PRODUCTOS</TableColumn>
+                <TableColumn key="saldo">PRECIOS PRODUCTOS</TableColumn>
+                <TableColumn key="dias_vencidos">TOTAL VENTA</TableColumn>
+                <TableColumn key="fecha">TIPO DE PAGO</TableColumn>
+                <TableColumn key="comentario">PRECIO FINAL</TableColumn>
+              </TableHeader>
+              <TableBody items={items}>
+                {(item) => (
+                  <TableRow key={item.numero} style={{ color: "black" }}>
+                    {(columnKey) => (
+                      <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                    )}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </>
+        ) : (
+          <div
+            className="content_welcome flex flex-col items-center justify-center"
+            style={{ minHeight: "100vh" }}
           >
-            <TableHeader>
-              <TableColumn key="fecha_hora-actual">FECHA Y HORA</TableColumn>
-              <TableColumn key="numero">PRODUCTOS</TableColumn>
-              <TableColumn key="saldo">PRECIOS PRODUCTOS</TableColumn>
-              <TableColumn key="dias_vencidos">TOTAL VENTA</TableColumn>
-              <TableColumn key="fecha">TIPO DE PAGO</TableColumn>
-              <TableColumn key="comentario">PRECIO FINAL</TableColumn>
-            </TableHeader>
-            <TableBody items={items}>
-              {(item) => (
-                <TableRow key={item.numero} style={{ color: "black" }}>
-                  {(columnKey) => (
-                    <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-                  )}
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </>
-      ) : (
-        <></>
+            <h1 style={{ fontSize: "2rem" }}>¡Mensaje!</h1>
+            <p className="mt-4">
+              Debes agregar datos de las facturas en el formulario para poder
+              visualizar registros en la tabla
+            </p>
+            <div>
+              <Link to="/dashboard/formulario">
+                <Button
+                  color="danger"
+                  className="p-4"
+                  style={{ marginTop: "2rem" }}
+                >
+                  <p>Registrar facturas</p>
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {showModalNotResults && (
+        <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
+          <ModalContent>
+            <>
+              <ModalHeader className="flex flex-col gap-1 text-black">
+                Alerta!
+              </ModalHeader>
+              <ModalBody>
+                <p className="text-black">
+                  No se han guardado datos en la tabla!
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="success" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </>
+          </ModalContent>
+        </Modal>
       )}
     </div>
   );

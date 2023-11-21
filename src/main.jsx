@@ -6,6 +6,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TableData from "./components/Table.jsx";
 import FormSendData from "./components/FormSendData.jsx";
+import Welcome from "./components/Welcome.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardOlio />,
     children: [
+      {
+        path: "/dashboard/bienvenida",
+        element: <Welcome/>
+      },
       {
         path: "/dashboard/formulario",
         element: <FormSendData />,
