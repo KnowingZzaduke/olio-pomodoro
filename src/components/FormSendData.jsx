@@ -1,15 +1,38 @@
-export function FormSendData() {
+import "../../compile-css/output.css";
+import {
+  Input,
+  Button,
+  Select,
+  SelectSection,
+  SelectItem,
+  Image,
+} from "@nextui-org/react";
+import logoOlio from "/logo-olio.png";
+
+function FormSendData() {
   return (
     <div
       className="flex flex-col align-middle justify-center"
       style={{ minHeight: "100vh" }}
     >
       <div className="text-center flex flex-col items-center">
-        <h2 className="font-bold text-xl">Olio y Pomodoro</h2>
         <form
-          className="flex flex-col border-2 border-solid rounded p-2"
-          style={{ width: "500px", minWidth: "400px", gap: "15px" }}
+          className="flex flex-col border-2 border-solid rounded p-4"
+          style={{
+            width: "500px",
+            minWidth: "400px",
+            gap: "15px",
+            backgroundColor: "#D5DBDB",
+          }}
         >
+          <div className="flex justify-center">
+            <Image
+              width={400}
+              alt="Logo-olio-pomodoro"
+              src={logoOlio}
+              className="py-4"
+            />
+          </div>
           <fieldset>
             <Input
               isRequired
@@ -56,3 +79,5 @@ export function FormSendData() {
     </div>
   );
 }
+
+export default FormSendData;
