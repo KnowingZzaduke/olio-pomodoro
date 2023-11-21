@@ -8,6 +8,7 @@ import {
   Image,
 } from "@nextui-org/react";
 import logoOlio from "/logo-olio.png";
+import { request } from "../data/request";
 import { useEffect, useState } from "react";
 function FormSendData() {
   const [sendParams, setSendParams] = useState({
@@ -20,13 +21,17 @@ function FormSendData() {
     finalPago: null,
   });
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     console.log(sendParams);
     for (let key in sendParams) {
       if (sendParams[key] === null) {
         alert(`El valor ${key} está vacío`);
       } else {
+        const response = await request.saveData(sendParams);
+        if (response) {
+          console.log(response);
+        }
       }
     }
   }
@@ -65,7 +70,9 @@ function FormSendData() {
               label="Fecha de factura"
               placeholder="Ingresa la fecha de la factura"
               value={sendParams.fecha}
-              onChange={(e) => setSendParams(...sendParams.fecha, e.target.value)}
+              onChange={(e) =>
+                setSendParams({ ...sendParams, fecha: e.target.value })
+              }
             />
           </fieldset>
           <fieldset>
@@ -75,7 +82,9 @@ function FormSendData() {
               label="Hora de la factura"
               placeholder="Ingresa la hora de la factura"
               value={sendParams.hora}
-              onChange={(e) => setSendParams(...sendParams.hora, e.target.value)}
+              onChange={(e) =>
+                setSendParams({ ...sendParams, hora: e.target.value })
+              }
             />
           </fieldset>
           <fieldset className="flex flex-col" style={{ gap: "15px" }}>
@@ -83,17 +92,23 @@ function FormSendData() {
               label="Selecciona una categoría de los productos"
               selectionMode="multiple"
               selectedKeys={sendParams.categoria}
-              onChange={() =>
-                setSendParams(
-                  ...sendParams.categoria,
-                  new Set(e.target.value.split(","))
-                )
+              onSelectionChange={(newSelection) =>
+                setSendParams({ ...sendParams, categoria: newSelection })
               }
             >
-              <SelectItem>Categorías</SelectItem>
+              <SelectItem>Emparedados</SelectItem>
+              <SelectItem>Entrada</SelectItem>
             </Select>
-            <Select label="Selecciona un producto">
-              <SelectItem>Productos</SelectItem>
+            <Select
+              label="Selecciona un producto"
+              selectionMode="multiple"
+              selectedKeys={sendParams.productos}
+              onSelectionChange={(newSelection) =>
+                setSendParams({ ...sendParams, productos: newSelection })
+              }
+            >
+              <SelectItem>Jamón, queso</SelectItem>
+              <SelectItem>Ensalada, queso</SelectItem>
             </Select>
           </fieldset>
           <fieldset>
@@ -102,12 +117,27 @@ function FormSendData() {
               type="number"
               label="Total de venta"
               placeholder="Ingresa el total de la venta"
+              value={sendParams.totalVentas}
+              onChange={(e) =>
+                setSendParams({ ...sendParams, totalVentas: e.target.value })
+              }
             />
           </fieldset>
           <fieldset className="flex flex-col" style={{ gap: "15px" }}>
-            <Select label="Selecciona el tipo de pago">
-              <SelectItem>Tarjeta</SelectItem>
-              <SelectItem>Efectivo</SelectItem>
+            <Select
+              label="Selecciona el tipo de pago"
+              selectionMode="multiple"
+              selectedKeys={sendParams.tipoPago}
+              onSelectionChange={(newSelection) =>
+                setSendParams({ ...sendParams, tipoPago: newSelection })
+              }
+            >
+              <SelectItem key="tarjeta" value="tarjeta">
+                Tarjeta
+              </SelectItem>
+              <SelectItem key="efectivo" value="efectivo">
+                Efectivo
+              </SelectItem>
             </Select>
           </fieldset>
           <fieldset>
@@ -116,9 +146,15 @@ function FormSendData() {
               type="number"
               label="Total"
               placeholder="Ingresa el total de la caja o efectivo"
+              value={sendParams.finalPago}
+              onChange={(e) =>
+                setSendParams({ ...sendParams, finalPago: e.target.value })
+              }
             />
           </fieldset>
-          <Button color="success">Enviar</Button>
+          <Button color="success" type="submit">
+            Enviar
+          </Button>
         </form>
       </div>
     </div>
