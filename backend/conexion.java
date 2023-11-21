@@ -1,7 +1,7 @@
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-//import java.sql.SQLException;
+import java.sql.SQLException;
 public class conexion 
 {
     Connection con;
@@ -9,10 +9,12 @@ public class conexion
     {
         try
         {
+           
             String myBD = "jdbc:mysql://localhost:8080/sistemaventas?serverTimezone=UTC";
-            con = DriverManager.getConnection(myBD, "root", "");
+            con = DriverManager.getConnection(myBD, "root", " ");
+            System.out.println("conexion exitosa");
             return con;
-        }catch(Exception e){System.out.println(e.toString());}
+        }catch(SQLException e){System.out.println(e.toString());}
         return null;
         
     }
