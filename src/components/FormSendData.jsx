@@ -45,6 +45,7 @@ function FormSendData() {
       style={{ minHeight: "100vh" }}
     >
       <div className="text-center flex flex-col items-center">
+        <h1 className="py-2" style={{fontSize: "2rem"}}>Formulario de agregar facturas</h1>
         <form
           onSubmit={handleSubmit}
           className="flex flex-col border-2 border-solid rounded p-4"

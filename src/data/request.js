@@ -1,5 +1,21 @@
 import axios from "axios";
 export const request = {
+  login: async function (data) {
+    const formData = new FormData();
+    formData.append("usuario", data.usuario);
+    formData.append("contrasena", data.contrasena);
+    try {
+      const response = await axios.post(
+        "/api/savedata?action=login",
+        formData
+      );
+      if (response) {
+        return response;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
   saveData: async function (data) {
     const formData = new FormData();
     formData.append("fecha", data.fecha);
@@ -17,8 +33,13 @@ export const request = {
     formData.append("finalPago  ", data.finalPago);
     console.log(formData);
     try {
-      const response = await axios.post("/api/savedata?action=savedata", formData);
-      return response;
+      const response = await axios.post(
+        "/api/savedata?action=savedata",
+        formData
+      );
+      if (response) {
+        return response;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +47,9 @@ export const request = {
   loaddata: async function () {
     try {
       const response = await axios.get("/api/loaddata?action=loaddata");
-      return response;
+      if (response) {
+        return response;
+      }
     } catch (error) {
       console.error(error);
     }

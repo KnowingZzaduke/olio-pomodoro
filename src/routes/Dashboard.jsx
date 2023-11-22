@@ -11,7 +11,7 @@ function DashboardOlio() {
     }
   }, [location]);
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div style={{ minHeight: "100vh" }} className="content_dashboard">
       <NavbarDashboard />
       <Outlet />
     </div>

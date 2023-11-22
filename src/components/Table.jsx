@@ -60,7 +60,7 @@ function TableData() {
     >
       <div>
         {showModalNotResults === false ? (
-          <>
+          <div className="p-4">
             <h1 className="py-3 font-semibold" style={{ fontSize: "30px" }}>
               Tabla de facturas
             </h1>
@@ -103,16 +103,16 @@ function TableData() {
                 )}
               </TableBody>
             </Table>
-          </>
+          </div>
         ) : (
           <div
             className="content_welcome flex flex-col items-center justify-center"
             style={{ minHeight: "100vh" }}
           >
             <h1 style={{ fontSize: "2rem" }}>¡Mensaje!</h1>
-            <p className="mt-4">
-              Debes agregar datos de las facturas en el formulario para poder
-              visualizar registros en la tabla
+            <p className="mt-4 text-center">
+              Debes agregar datos de las facturas en el formulario <br /> para
+              poder visualizar registros en la tabla
             </p>
             <div>
               <Link to="/dashboard/formulario">

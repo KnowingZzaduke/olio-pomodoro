@@ -21,6 +21,33 @@ body {
   display: none;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Estilo adicional para Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Estilo adicional para Microsoft Edge */
+input[type=number] {
+  -webkit-appearance: textfield;
+}
+
+.content_dashboard{
+  background-image: url("/fondo_dashboard.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 30%; 
+}
+
 
 *,
 ::before,
