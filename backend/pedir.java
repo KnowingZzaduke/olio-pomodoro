@@ -1,4 +1,3 @@
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -6,7 +5,7 @@ import java.sql.SQLException;
 
 public class pedir {
     public static void main(String[] args) {
-        String jdbcUrl = "jdbc:mysql:http://localhost:8080/sistemaventas";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/sistemaventas";
         String usuario = "usuario";
         String contraseña = "contraseña";
 
@@ -18,12 +17,28 @@ public class pedir {
                 statement.setInt(2, 123);
 
                 // Ejecutar la inserción
-                statement.executeUpdate();
-                System.out.println("Datos insertados correctamente.");
+                int filasAfectadas = statement.executeUpdate();
+                
+                if (filasAfectadas > 0) {
+                    System.out.println("Datos insertados correctamente.");
+                } else {
+                    System.out.println("No se insertaron datos.");
+                }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            handleSQLException(e);
         }
     }
-}
 
+    private static void handleSQLException(SQLException e) {
+        System.out.println("Error al interactuar con la base de datos:");
+        while (e != null) {
+            System.out.println("SQL State: " + e.getSQLState());
+            System.out.println("Error Code: " + e.getErrorCode());
+            System.out.println("Message: " + e.getMessage());
+            System.out.println("-----------");
+            e = e.getNextException();
+        }
+        e.printStackTrace();
+    }
+}

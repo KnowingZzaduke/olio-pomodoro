@@ -4,9 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class recibir {
+public class Recibir {
     public static void main(String[] args) {
-        String jdbcUrl = "dbc:mysql:http://localhost:8080/sistemaventas";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/sistemaventas";
         String usuario = "usuario";
         String contraseña = "contraseña";
 

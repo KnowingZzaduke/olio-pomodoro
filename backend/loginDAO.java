@@ -10,7 +10,7 @@ public class loginDAO
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
-    conexion cn = new conexion();
+    Conexion cn = new Conexion();
     
     
     public login log(String nombre, String pass)

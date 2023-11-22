@@ -1,5 +1,5 @@
 //package controler;
-
+/* 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +24,9 @@ public class controlador
 	model.addAttribute("personas", personas);
 	  return "index";  
   }
+}
+*/
+
+
+
 }
