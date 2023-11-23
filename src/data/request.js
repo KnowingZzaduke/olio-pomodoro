@@ -6,7 +6,7 @@ export const request = {
     formData.append("contrasena", data.contrasena);
     try {
       const response = await axios.post(
-        "/api/savedata?action=login",
+        "http://localhost:8080/api/savedata?action=login",
         formData
       );
       if (response) {
@@ -34,7 +34,7 @@ export const request = {
     console.log(formData);
     try {
       const response = await axios.post(
-        "/api/savedata?action=savedata",
+        "http://localhost:8080/api/savedata?action=savedata",
         formData
       );
       if (response) {
@@ -46,7 +46,7 @@ export const request = {
   },
   loaddata: async function () {
     try {
-      const response = await axios.get("/api/loaddata?action=loaddata");
+      const response = await axios.get("http://localhost:8080/api/loaddata?action=loaddata");
       if (response) {
         return response;
       }

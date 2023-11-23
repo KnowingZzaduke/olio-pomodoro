@@ -1,40 +1,45 @@
-//package services;
-
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import interfaceService.Ipersonaservice;
-import interfaces.Ipersona;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 import modelo.persona;
 
-public class personaservice implements Ipersonaservice
-{
+@RestController
+@RequestMapping("/api")
+public class PersonaController {
+
     @Autowired
-	private Ipersona data;
-	@Override
-	public List<persona> listar() {
-		
-		return (List<persona>)data.findAll();
-	}
+    private PersonaService personaService;
 
-	@Override
-	public Optional<persona> listarId(int id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String action, @ModelAttribute Persona persona) {
+        if ("login".equals(action)) {
+            System.out.println("Datos recibidos en login: " + persona.toString());
+            return ResponseEntity.ok("{'salida': 'Éxito', 'mensaje': 'Inicio de sesión exitoso'}");
+        } else {
+            return ResponseEntity.badRequest().body("{'salida': 'Error!', 'mensaje': 'Acción no válida'}");
+        }
+    }
 
-	@Override
-	public int save(persona p) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @PostMapping("/savedata")
+    public ResponseEntity<String> saveData(@RequestParam String action, @ModelAttribute Persona persona) {
+        if ("savedata".equals(action)) {
+            System.out.println("Datos recibidos en savedata: " + persona.toString());
+            personaService.save(persona);
+            return ResponseEntity.ok("{'salida': 'Éxito', 'mensaje': 'Los datos fueron enviados y guardados correctamente.'}");
+        } else {
+            return ResponseEntity.badRequest().body("{'salida': 'Error!', 'mensaje': 'Acción no válida'}");
+        }
+    }
 
-	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
-		
-	}
- 
+    @GetMapping("/loaddata")
+    public ResponseEntity<List<persona>> loadData(@RequestParam String action) {
+        if ("loaddata".equals(action)) {
+            List<persona> personas = personaService.listar();
+            System.out.println("Datos enviados a frontend: " + personas.toString());
+            return ResponseEntity.ok().body(personas);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
