@@ -4,6 +4,8 @@ import logoOlio from "/logo-olio.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { request } from "./data/request";
+import Cookies from "js-cookie";
+
 function App() {
   const navigate = useNavigate();
   const [sendParams, setSendParams] = useState({
@@ -17,14 +19,20 @@ function App() {
     for (let key in sendParams) {
       if (sendParams[key] === "") {
         alert(`El campo ${key} no puede ir vacío`);
-      } else {
-        const response = await request.login(sendParams);
-        if (response) {
-          console.log(response);
-        }
       }
     }
-    navigate("/dashboard");
+    const response = await request.login(sendParams);
+    if (response.data.salida === "exito") {
+      let cookkieD = request.encryptData(response.data);
+      Cookies.set("dyzam-app", cookkieD, {
+        SameSite: "none",
+        secure: true,
+      });
+      if (cookkieD) {
+        navigate("/dashboard");
+      }
+      console.log(response);
+    }
   }
   return (
     <div

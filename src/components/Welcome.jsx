@@ -34,13 +34,21 @@ function Welcome() {
       className="content_welcome flex flex-col items-center justify-center"
       style={{ minHeight: "100vh" }}
     >
-      <h1 ref={name1} style={{fontSize: "2rem"}}></h1>
+      <h1 ref={name1} style={{ fontSize: "2rem" }}></h1>
       <p ref={name2} className="mt-4"></p>
       <div>
-        <Link to="/dashboard/formulario">
-          <Button color="danger" className="p-4" style={{marginTop: "2rem"}}>
-            <p>Registrar facturas</p>
-          </Button>
+        <Link to="/dashboard/formulario-enviar-facturas">
+          <p
+            style={{
+              backgroundColor: "red",
+              padding: "8px",
+              borderRadius: "10px",
+              color: "white",
+              marginTop: "10px",
+            }}
+          >
+            Registrar facturas
+          </p>
         </Link>
       </div>
     </div>

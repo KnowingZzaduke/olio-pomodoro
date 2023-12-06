@@ -21,8 +21,13 @@ function NavbarDashboard() {
       icon: FaHandsClapping,
     },
     {
-      name: "Formulario",
-      path: "/dashboard/formulario",
+      name: "Enviar facturas",
+      path: "/dashboard/formulario-enviar-facturas",
+      icon: FaNewspaper,
+    },
+    {
+      name: "Agregar productos",
+      path: "/dashboard/formulario-agregar-productos",
       icon: FaNewspaper,
     },
     {

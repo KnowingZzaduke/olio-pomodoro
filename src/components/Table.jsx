@@ -18,10 +18,13 @@ import {
 import { useMemo, useState, useCallback, useEffect } from "react";
 import { request } from "../data/request";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+
 function TableData() {
   const [data, setData] = useState(null);
   const [showModalNotResults, setShowModalNotResults] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [reverseData, setReverseData] = useState(false);
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const pages = Math.ceil(data?.length / rowsPerPage);
@@ -32,14 +35,22 @@ function TableData() {
   }, [page, data]);
   const loadData = useCallback(async () => {
     try {
-      const response = await request.loaddata();
-      if (response) {
-        setData(response.data.data);
+      const SESSION = Cookies.get("dyzam-app");
+      const SESSIONDECRYPT = await request.decryptdata(SESSION);
+      if (SESSIONDECRYPT.salida === "exito") {
+        const response = await request.loaddata(SESSIONDECRYPT.data.idusuario);
+        if (response) {
+          setData(response.data.data);
+        }
       }
     } catch (error) {
       console.log(error);
     }
   });
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   useEffect(() => {
     if (
@@ -64,6 +75,20 @@ function TableData() {
             <h1 className="py-3 font-semibold" style={{ fontSize: "30px" }}>
               Tabla de facturas
             </h1>
+            <Button
+              color="warning"
+              onClick={() => {
+                setReverseData(!reverseData);
+                setData(data.slice().reverse());
+              }}
+              style={{margin: "1rem 0"}}
+            >
+              {reverseData === false ? (
+                <p>Mostrar los últmos registros</p>
+              ) : (
+                <p>Mostrar los primeros registros</p>
+              )}
+            </Button>
             <Table
               aria-label="Example table with client side pagination"
               bottomContent={
@@ -86,16 +111,21 @@ function TableData() {
               }}
             >
               <TableHeader>
-                <TableColumn key="fecha_hora-actual">FECHA Y HORA</TableColumn>
-                <TableColumn key="numero">PRODUCTOS</TableColumn>
-                <TableColumn key="saldo">PRECIOS PRODUCTOS</TableColumn>
-                <TableColumn key="dias_vencidos">TOTAL VENTA</TableColumn>
-                <TableColumn key="fecha">TIPO DE PAGO</TableColumn>
-                <TableColumn key="comentario">PRECIO FINAL</TableColumn>
+                <TableColumn key="fechafactura">
+                  FECHA DE LA FACTURA
+                </TableColumn>
+                <TableColumn key="horafactura">HORA DE LA FACTURA</TableColumn>
+                <TableColumn key="categoriaproducto">CATEGORIA</TableColumn>
+                <TableColumn key="nombreproducto">
+                  NOMBRE DEL PRODUCTO
+                </TableColumn>
+                <TableColumn key="totalventa">VENTA</TableColumn>
+                <TableColumn key="tipopago">TIPO DE PAGO</TableColumn>
+                <TableColumn key="total">TOTAL</TableColumn>
               </TableHeader>
               <TableBody items={items}>
                 {(item) => (
-                  <TableRow key={item.numero} style={{ color: "black" }}>
+                  <TableRow key={item.idfacturas} style={{ color: "black" }}>
                     {(columnKey) => (
                       <TableCell>{getKeyValue(item, columnKey)}</TableCell>
                     )}

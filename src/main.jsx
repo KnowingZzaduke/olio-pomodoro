@@ -7,22 +7,40 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TableData from "./components/Table.jsx";
 import FormSendData from "./components/FormSendData.jsx";
 import Welcome from "./components/Welcome.jsx";
-
+import HOC from "./validation/Hoc.jsx";
+import FormAddProducts from "./components/FormAddProducts.jsx";
+import DataContextProvider from "./context/DataContext.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <HOC>
+        <App />
+      </HOC>
+    ),
+  },
+  {
+    path: "/registrar-productos",
+    element: (
+      <HOC>
+        <FormAddProducts />
+      </HOC>
+    ),
   },
   {
     path: "/dashboard",
-    element: <DashboardOlio />,
+    element: (
+      <HOC>
+        <DashboardOlio />
+      </HOC>
+    ),
     children: [
       {
         path: "/dashboard/bienvenida",
-        element: <Welcome/>
+        element: <Welcome />,
       },
       {
-        path: "/dashboard/formulario",
+        path: "/dashboard/formulario-enviar-facturas",
         element: <FormSendData />,
       },
       {
@@ -34,8 +52,10 @@ const router = createBrowserRouter([
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <NextUIProvider>
-      <RouterProvider router={router} />
-    </NextUIProvider>
+    <DataContextProvider>
+      <NextUIProvider>
+        <RouterProvider router={router} />
+      </NextUIProvider>
+    </DataContextProvider>
   </React.StrictMode>
 );

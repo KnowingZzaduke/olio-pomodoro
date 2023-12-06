@@ -10,6 +10,8 @@ import {
 import logoOlio from "/logo-olio.png";
 import { request } from "../data/request";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+
 function FormSendData() {
   const [sendParams, setSendParams] = useState({
     fecha: null,
@@ -19,7 +21,26 @@ function FormSendData() {
     totalVentas: null,
     tipoPago: null,
     finalPago: null,
+    idUsuario: null,
   });
+
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const SESSION = Cookies.get("dyzam-app");
+      const SESSIONDECRYPT = await request.decryptdata(SESSION);
+      if (SESSIONDECRYPT.salida === "exito") {
+        console.log(SESSIONDECRYPT.data.idusuario);
+        setSendParams({
+          ...sendParams,
+          idUsuario: SESSIONDECRYPT.data.idusuario,
+        });
+      }
+    };
+
+    fetchData();
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -27,25 +48,25 @@ function FormSendData() {
     for (let key in sendParams) {
       if (sendParams[key] === null) {
         alert(`El valor ${key} está vacío`);
-      } else {
-        const response = await request.saveData(sendParams);
-        if (response) {
-          console.log(response);
-        }
       }
     }
+    const response = await request.saveData(sendParams);
+    if (response.data.salida === "exito") {
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, [3000]);
+    }
   }
-
-  useEffect(() => {
-    console.log(sendParams);
-  }, [sendParams]);
   return (
     <div
       className="flex flex-col align-middle justify-center"
       style={{ minHeight: "100vh" }}
     >
       <div className="text-center flex flex-col items-center">
-        <h1 className="py-2" style={{fontSize: "2rem"}}>Formulario de agregar facturas</h1>
+        <h1 className="py-2" style={{ fontSize: "2rem" }}>
+          Formulario de agregar facturas
+        </h1>
         <form
           onSubmit={handleSubmit}
           className="flex flex-col border-2 border-solid rounded p-4"
@@ -156,6 +177,13 @@ function FormSendData() {
           <Button color="success" type="submit">
             Enviar
           </Button>
+          {showAlert === true ? (
+            <p className="text-center underline" style={{ color: "green" }}>
+              Datos enviandos correctamente
+            </p>
+          ) : (
+            <></>
+          )}
         </form>
       </div>
     </div>

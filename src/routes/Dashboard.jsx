@@ -7,7 +7,7 @@ function DashboardOlio() {
   const navigate = useNavigate();
   useEffect(() => {
     if (location.pathname === "/dashboard") {
-      navigate("/dashboard/formulario");
+      navigate("/dashboard/bienvenida");
     }
   }, [location]);
   return (
