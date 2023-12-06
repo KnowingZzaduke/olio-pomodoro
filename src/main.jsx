@@ -20,14 +20,6 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/registrar-productos",
-    element: (
-      <HOC>
-        <FormAddProducts />
-      </HOC>
-    ),
-  },
-  {
     path: "/dashboard",
     element: (
       <HOC>
@@ -42,6 +34,12 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/formulario-enviar-facturas",
         element: <FormSendData />,
+      },
+      {
+        path: "/dashboard/formulario-agregar-productos",
+        element: (
+            <FormAddProducts />
+        ),
       },
       {
         path: "/dashboard/tabla",

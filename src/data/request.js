@@ -47,6 +47,29 @@ export const request = {
       console.log(error);
     }
   },
+  saveProducts: async function (data) {
+    const formData = new FormData();
+    formData.append("nombreproducto", data.nombreproducto);
+    formData.append(
+      "categoria",
+      typeof data.categoria === "string"
+        ? data.categoria
+        : data.categoria.values().next().value.toString()
+    );
+    formData.append("precioproducto", data.precioproducto);
+    console.log(formData);
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1/api.php?action=saveproducts",
+        formData
+      );
+      if (response) {
+        return response;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
   loaddata: async function (id) {
     const formData = new FormData();
     formData.append("idusuario", id);
@@ -54,6 +77,18 @@ export const request = {
       const response = await axios.post(
         "http://127.0.0.1/api.php?action=loaddata",
         formData
+      );
+      if (response) {
+        return response;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  loadcategory: async function (id) {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1/api.php?action=loadcategory"
       );
       if (response) {
         return response;

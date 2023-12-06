@@ -13,9 +13,7 @@ function App() {
     contrasena: "",
   });
   async function handleSubmitData(e) {
-    console.log("envió");
     e.preventDefault();
-    console.log(sendParams);
     for (let key in sendParams) {
       if (sendParams[key] === "") {
         alert(`El campo ${key} no puede ir vacío`);
@@ -31,7 +29,6 @@ function App() {
       if (cookkieD) {
         navigate("/dashboard");
       }
-      console.log(response);
     }
   }
   return (

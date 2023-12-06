@@ -65,7 +65,7 @@ function FormSendData() {
     >
       <div className="text-center flex flex-col items-center">
         <h1 className="py-2" style={{ fontSize: "2rem" }}>
-          Formulario de agregar facturas
+          Formulario de enviar facturas
         </h1>
         <form
           onSubmit={handleSubmit}
@@ -175,7 +175,7 @@ function FormSendData() {
             />
           </fieldset>
           <Button color="success" type="submit">
-            Enviar
+            Enviar factura
           </Button>
           {showAlert === true ? (
             <p className="text-center underline" style={{ color: "green" }}>

@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { FaHandsClapping, FaNewspaper, FaTableList } from "react-icons/fa6";
+import { FaHandsClapping, FaNewspaper, FaTableList, FaCirclePlus } from "react-icons/fa6";
 function NavbarDashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -28,7 +28,7 @@ function NavbarDashboard() {
     {
       name: "Agregar productos",
       path: "/dashboard/formulario-agregar-productos",
-      icon: FaNewspaper,
+      icon: FaCirclePlus,
     },
     {
       name: "Tabla",

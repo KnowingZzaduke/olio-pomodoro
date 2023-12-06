@@ -21,10 +21,6 @@ function Welcome() {
       };
     }, 3000);
 
-    setTimeout(() => {
-      setButton(true);
-    }, 15000);
-
     return () => {
       typed.destroy();
     };
