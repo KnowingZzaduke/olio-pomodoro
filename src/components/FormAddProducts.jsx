@@ -60,6 +60,8 @@ function FormAddProducts() {
   useEffect(() => {
     if (showProductsSelect === false) {
       setSendParams({ ...sendParams, categoria: "" });
+    } else {
+      loadCategory();
     }
   }, [showProductsSelect]);
 
