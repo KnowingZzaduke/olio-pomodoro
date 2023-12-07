@@ -10,10 +10,18 @@ import {
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { FaHandsClapping, FaNewspaper, FaTableList, FaCirclePlus } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import {
+  FaHandsClapping,
+  FaNewspaper,
+  FaTableList,
+  FaCirclePlus,
+} from "react-icons/fa6";
+import Cookies from "js-cookie";
+
 function NavbarDashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const navigate = useNavigate();
   const menuItems = [
     {
       name: "Bienvenida",
@@ -26,7 +34,7 @@ function NavbarDashboard() {
       icon: FaNewspaper,
     },
     {
-      name: "Agregar productos",
+      name: "Agregar categorías",
       path: "/dashboard/formulario-agregar-productos",
       icon: FaCirclePlus,
     },
@@ -36,6 +44,11 @@ function NavbarDashboard() {
       icon: FaTableList,
     },
   ];
+
+  function closedSession() {
+    Cookies.remove("dyzam-app");
+    navigate("/");
+  }
 
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -51,7 +64,12 @@ function NavbarDashboard() {
 
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button color="primary" href="#" variant="flat">
+          <Button
+            color="primary"
+            href="#"
+            variant="flat"
+            onClick={() => closedSession()}
+          >
             Cerrar sesión
           </Button>
         </NavbarItem>

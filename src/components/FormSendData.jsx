@@ -17,13 +17,14 @@ function FormSendData() {
     fecha: null,
     hora: null,
     categoria: null,
-    productos: null,
     totalVentas: null,
     tipoPago: null,
     finalPago: null,
     idUsuario: null,
   });
 
+  const [dataProductos, setDataProducts] = useState([]);
+  const [dataCategorias, setDataCategorias] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
@@ -31,7 +32,6 @@ function FormSendData() {
       const SESSION = Cookies.get("dyzam-app");
       const SESSIONDECRYPT = await request.decryptdata(SESSION);
       if (SESSIONDECRYPT.salida === "exito") {
-        console.log(SESSIONDECRYPT.data.idusuario);
         setSendParams({
           ...sendParams,
           idUsuario: SESSIONDECRYPT.data.idusuario,
@@ -40,6 +40,33 @@ function FormSendData() {
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const response = await request.loadproducts();
+        if (response.data.salida === "exito") {
+          setDataProducts(response.data.data);
+          const uniqueData = {};
+          response.data.data.forEach((element) => {
+            const category = element.categoria;
+            if (!uniqueData[category]) {
+              uniqueData[category] = new Set();
+            }
+            uniqueData[category].add(category);
+          });
+          const finallyData = Object.keys(uniqueData);
+          if (finallyData.length !== 0) {
+            setDataCategorias(finallyData);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadProducts();
   }, []);
 
   async function handleSubmit(e) {
@@ -71,8 +98,7 @@ function FormSendData() {
           onSubmit={handleSubmit}
           className="flex flex-col border-2 border-solid rounded p-4"
           style={{
-            width: "500px",
-            minWidth: "400px",
+            maxWidth: "500px",
             gap: "15px",
             backgroundColor: "#D5DBDB",
           }}
@@ -117,20 +143,14 @@ function FormSendData() {
               onSelectionChange={(newSelection) =>
                 setSendParams({ ...sendParams, categoria: newSelection })
               }
+              style={{ maxWidth: "400px" }}
             >
-              <SelectItem>Emparedados</SelectItem>
-              <SelectItem>Entrada</SelectItem>
-            </Select>
-            <Select
-              label="Selecciona un producto"
-              selectionMode="multiple"
-              selectedKeys={sendParams.productos}
-              onSelectionChange={(newSelection) =>
-                setSendParams({ ...sendParams, productos: newSelection })
-              }
-            >
-              <SelectItem>Jamón, queso</SelectItem>
-              <SelectItem>Ensalada, queso</SelectItem>
+              {dataCategorias &&
+                dataCategorias.map((item) => (
+                  <SelectItem key={item} value={item}>
+                    {item}
+                  </SelectItem>
+                ))}
             </Select>
           </fieldset>
           <fieldset>
@@ -148,7 +168,6 @@ function FormSendData() {
           <fieldset className="flex flex-col" style={{ gap: "15px" }}>
             <Select
               label="Selecciona el tipo de pago"
-              selectionMode="multiple"
               selectedKeys={sendParams.tipoPago}
               onSelectionChange={(newSelection) =>
                 setSendParams({ ...sendParams, tipoPago: newSelection })
@@ -167,7 +186,7 @@ function FormSendData() {
               isRequired
               type="number"
               label="Total"
-              placeholder="Ingresa el total de la caja o efectivo"
+              placeholder="Ingresa el total de la tarjeta o efectivo"
               value={sendParams.finalPago}
               onChange={(e) =>
                 setSendParams({ ...sendParams, finalPago: e.target.value })
@@ -179,7 +198,7 @@ function FormSendData() {
           </Button>
           {showAlert === true ? (
             <p className="text-center underline" style={{ color: "green" }}>
-              Datos enviandos correctamente
+              Datos enviados correctamente
             </p>
           ) : (
             <></>

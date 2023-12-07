@@ -53,10 +53,7 @@ function TableData() {
   }, []);
 
   useEffect(() => {
-    if (
-      data === "No se encontraron registros en la tabla nombre-tabla" ||
-      data === null
-    ) {
+    if (data === "No se encontraron datos para el usuario" || data === null) {
       setShowModalNotResults(true);
       onOpen();
     } else {
@@ -81,12 +78,12 @@ function TableData() {
                 setReverseData(!reverseData);
                 setData(data.slice().reverse());
               }}
-              style={{margin: "1rem 0"}}
+              style={{ margin: "1rem 0" }}
             >
               {reverseData === false ? (
-                <p>Mostrar los últmos registros</p>
+                <p>Mostrar registros recientes</p>
               ) : (
-                <p>Mostrar los primeros registros</p>
+                <p>Mostrar últimos registros</p>
               )}
             </Button>
             <Table
@@ -116,16 +113,13 @@ function TableData() {
                 </TableColumn>
                 <TableColumn key="horafactura">HORA DE LA FACTURA</TableColumn>
                 <TableColumn key="categoriaproducto">CATEGORIA</TableColumn>
-                <TableColumn key="nombreproducto">
-                  NOMBRE DEL PRODUCTO
-                </TableColumn>
                 <TableColumn key="totalventa">VENTA</TableColumn>
                 <TableColumn key="tipopago">TIPO DE PAGO</TableColumn>
                 <TableColumn key="total">TOTAL</TableColumn>
               </TableHeader>
               <TableBody items={items}>
                 {(item) => (
-                  <TableRow key={item.idfacturas} style={{ color: "black" }}>
+                  <TableRow key={item?.idfacturas} style={{ color: "black" }}>
                     {(columnKey) => (
                       <TableCell>{getKeyValue(item, columnKey)}</TableCell>
                     )}
@@ -145,14 +139,18 @@ function TableData() {
               poder visualizar registros en la tabla
             </p>
             <div>
-              <Link to="/dashboard/formulario">
-                <Button
-                  color="danger"
-                  className="p-4"
-                  style={{ marginTop: "2rem" }}
+              <Link to="/dashboard/formulario-enviar-facturas">
+                <p
+                  style={{
+                    backgroundColor: "red",
+                    padding: "8px",
+                    borderRadius: "10px",
+                    color: "white",
+                    marginTop: "10px",
+                  }}
                 >
-                  <p>Registrar facturas</p>
-                </Button>
+                  Registrar facturas
+                </p>
               </Link>
             </div>
           </div>

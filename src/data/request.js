@@ -22,14 +22,7 @@ export const request = {
     const formData = new FormData();
     formData.append("fecha", data.fecha);
     formData.append("hora", data.hora);
-    formData.append(
-      "categoria",
-      data.categoria.values().next().value.toString()
-    );
-    formData.append(
-      "productos",
-      data.productos.values().next().value.toString()
-    );
+    data.categoria.forEach(value => formData.append("categoria[]", value));
     formData.append("totalVentas", data.totalVentas);
     formData.append("tipoPago", data.tipoPago.values().next().value.toString());
     formData.append("total", data.finalPago);
@@ -49,15 +42,12 @@ export const request = {
   },
   saveProducts: async function (data) {
     const formData = new FormData();
-    formData.append("nombreproducto", data.nombreproducto);
     formData.append(
       "categoria",
       typeof data.categoria === "string"
         ? data.categoria
         : data.categoria.values().next().value.toString()
     );
-    formData.append("precioproducto", data.precioproducto);
-    console.log(formData);
     try {
       const response = await axios.post(
         "http://127.0.0.1/api.php?action=saveproducts",
@@ -85,10 +75,22 @@ export const request = {
       console.error(error);
     }
   },
-  loadcategory: async function (id) {
+  loadcategory: async function () {
     try {
       const response = await axios.get(
         "http://127.0.0.1/api.php?action=loadcategory"
+      );
+      if (response) {
+        return response;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  loadproducts: async function () {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1/api.php?action=loadproducts"
       );
       if (response) {
         return response;

@@ -15,9 +15,7 @@ import { useEffect, useState } from "react";
 
 function FormAddProducts() {
   const [sendParams, setSendParams] = useState({
-    nombreproducto: "",
     categoria: "",
-    precioproducto: null,
   });
 
   const [showAlert, setShowAlert] = useState(false);
@@ -27,12 +25,24 @@ function FormAddProducts() {
     try {
       const response = await request.loadcategory();
       if (response.data.salida === "exito") {
-        setDataCategory(response.data.data);
+        const uniqueData = {};
+        response.data.data.forEach((element) => {
+          const category = element.categoria;
+          if (!uniqueData[category]) {
+            uniqueData[category] = new Set();
+          }
+          uniqueData[category].add(category);
+        });
+        const finallyData = Object.keys(uniqueData);
+        if (finallyData.length !== 0) {
+          setDataCategory(finallyData);
+        }
       }
     } catch (error) {
       console.log(error);
     }
   }
+
   async function handleSubmit(e) {
     e.preventDefault();
     for (let key in sendParams) {
@@ -43,6 +53,7 @@ function FormAddProducts() {
     try {
       const response = await request.saveProducts(sendParams);
       if (response.data.salida === "exito") {
+        setSendParams({...sendParams, categoria: ""})
         setShowAlert(true);
         setTimeout(() => {
           setShowAlert(false);
@@ -64,10 +75,6 @@ function FormAddProducts() {
       loadCategory();
     }
   }, [showProductsSelect]);
-
-  useEffect(() => {
-    console.log(sendParams);
-  }, [sendParams]);
   return (
     <div
       className="flex flex-col align-middle justify-center"
@@ -75,14 +82,13 @@ function FormAddProducts() {
     >
       <div className="text-center flex flex-col items-center">
         <h1 className="py-2" style={{ fontSize: "2rem" }}>
-          Formulario de agregar productos
+          Formulario de agregar categorías
         </h1>
         <form
           onSubmit={handleSubmit}
           className="flex flex-col border-2 border-solid rounded p-4"
           style={{
-            width: "500px",
-            minWidth: "400px",
+            maxWidth: "500px",
             gap: "15px",
             backgroundColor: "#D5DBDB",
           }}
@@ -116,17 +122,18 @@ function FormAddProducts() {
                 onSelectionChange={(newSelection) =>
                   setSendParams({ ...sendParams, categoria: newSelection })
                 }
+                style={{ maxWidth: "400px" }}
               >
                 {dataCategory &&
                   dataCategory.map((item) => (
-                    <SelectItem key={item.categoria} value={item.categoria}>
-                      {item.categoria}
+                    <SelectItem key={item} value={item}>
+                      {item}
                     </SelectItem>
                   ))}
               </Select>
             </fieldset>
           )}
-          <div className="text-start">
+          {/* <div className="text-start">
             <Checkbox
               color="primary"
               isSelected={showProductsSelect}
@@ -139,9 +146,9 @@ function FormAddProducts() {
                 Seleccionar una categoria ya creada
               </p>
             </Checkbox>
-          </div>
+          </div> */}
 
-          <fieldset>
+          {/* <fieldset>
             <Input
               isRequired
               type="text"
@@ -164,13 +171,13 @@ function FormAddProducts() {
                 setSendParams({ ...sendParams, precioproducto: e.target.value })
               }
             />
-          </fieldset>
+          </fieldset> */}
           <Button color="success" type="submit">
-            Enviar producto
+            Enviar categoría
           </Button>
           {showAlert === true ? (
             <p className="text-center underline" style={{ color: "green" }}>
-              Producto agregado correctamente
+              Categoría agregada correctamente
             </p>
           ) : (
             <></>
